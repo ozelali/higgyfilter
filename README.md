@@ -18,7 +18,7 @@ To update, replace the files in the loaded folder (or run `git pull` in your clo
 
 ## Using the filter
 
-Filtering starts automatically on supported sites. Choose **Show anyway** to reveal just that item and use its normal links and controls. A small **Filtered content** label stays on the revealed card. Your choice lasts until you reload the page.
+Filtering starts automatically on supported sites. Choose **Show anyway** to reveal just that item and use its normal links and controls. A small **Filtered content** label stays on the revealed card. Your choice lasts until you reload the page. Choose **Always show on this site** to pause filtering for that hostname across tabs and reloads. Open HiggyFilter from Chrome’s toolbar and select **Resume filtering** beside the site to undo it.
 
 On YouTube Home, cards show **Checking video details…** near the viewport while the extension reads the linked video's metadata. If the lookup fails, the card becomes visible unless the card itself contains a match.
 
@@ -35,7 +35,7 @@ The filter checks for predefined terms and related account names, so it can also
 
 ## Privacy
 
-Filtering runs in your browser with no telemetry, API key or external backend. On YouTube Home, the extension requests metadata from YouTube watch pages on the same origin. Lookup results are cached in memory for the current page.
+Filtering runs in your browser with no telemetry, API key or external backend. On YouTube Home, the extension requests metadata from YouTube watch pages on the same origin. Lookup results are cached in memory for the current page. Paused sites are saved in Chrome extension storage on this device.
 
 ## Development and reporting issues
 

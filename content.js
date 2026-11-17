@@ -3,6 +3,9 @@
 (() => {
   const { mentionsBrand, youtubeVideoId, matchWatchPage } = globalThis.HiggyFilterMatching;
   const host = location.hostname;
+  const pauseKey = `paused:${host}`;
+  let paused = false;
+  let preferenceReady = false;
   const youtube = host === "www.youtube.com";
   const cards = {
     "www.youtube.com": "ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, ytd-compact-video-renderer, yt-lockup-view-model, ytd-promoted-sparkles-web-renderer, ytd-in-feed-ad-layout-renderer",
@@ -47,8 +50,13 @@
       const symbol = document.createElement("span");
       symbol.dataset.hffSymbol = "";
       symbol.setAttribute("aria-hidden", "true");
+      const brand = document.createElement("span");
+      brand.dataset.hffBrand = "";
+      brand.textContent = "HiggyFilter";
       heading.append(symbol, label);
-      badge.replaceChildren(heading);
+      const description = document.createElement("span");
+      description.dataset.hffDescription = "";
+      description.textContent = "This item matches your content filter.";
 
       const button = document.createElement("button");
       button.type = "button";
@@ -61,7 +69,25 @@
         setState(card, "revealed");
         if (restoreFocus) card.querySelector("a[href], button, video[controls]")?.focus({ preventScroll: true });
       });
-      badge.append(button);
+      const allowSite = document.createElement("button");
+      allowSite.type = "button";
+      allowSite.textContent = "Always show on this site";
+      allowSite.addEventListener("click", async event => {
+        event.preventDefault();
+        event.stopPropagation();
+        allowSite.disabled = true;
+        try {
+          await chrome.storage.local.set({ [pauseKey]: true });
+        } catch {
+          allowSite.disabled = false;
+          description.textContent = "Could not save your preference. Try again.";
+          description.dataset.hffError = "";
+        }
+      });
+      const actions = document.createElement("span");
+      actions.dataset.hffActions = "";
+      actions.append(button, allowSite);
+      badge.replaceChildren(brand, heading, description, actions);
     }
     card.setAttribute(stateAttribute, state);
     if (!previous) card.append(badge);
@@ -104,7 +130,7 @@
   function pump() {
     while (active < 4 && queue.length) {
       const { id, entry } = queue.shift();
-      if (![...entry.cards].some(card => card.isConnected && homepage() && cardId(card) === id)) {
+      if (paused || ![...entry.cards].some(card => card.isConnected && homepage() && cardId(card) === id)) {
         cache.delete(id);
         continue;
       }
@@ -166,7 +192,12 @@
       visible.delete(card);
       return;
     }
-    if (youtube && card.parentElement?.closest(cards)) return;
+    if (!preferenceReady || (youtube && card.parentElement?.closest(cards))) return;
+    if (paused) {
+      revealed.delete(card);
+      setState(card, null);
+      return;
+    }
     if (revealed.has(card)) {
       if (revealed.get(card) === contentKey(card)) {
         setState(card, "revealed");
@@ -270,5 +301,19 @@
     }
   }, true);
   document.addEventListener("yt-navigate-finish", scanPage);
-  scanPage();
+  function applyPreference(value) {
+    paused = value === true;
+    preferenceReady = true;
+    scanPage();
+  }
+
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === "local" && Object.hasOwn(changes, pauseKey)) {
+      applyPreference(changes[pauseKey].newValue);
+    }
+  });
+  chrome.storage.local.get(pauseKey).then(
+    values => { if (!preferenceReady) applyPreference(values[pauseKey]); },
+    () => { if (!preferenceReady) applyPreference(false); }
+  );
 })();
