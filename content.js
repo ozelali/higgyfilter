@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-  const { mentionsBrand, youtubeVideoId, matchWatchPage } = globalThis.HiggsFieldMatching;
+  const { mentionsBrand, youtubeVideoId, matchWatchPage } = globalThis.HiggyFilterMatching;
   const host = location.hostname;
   const youtube = host === "www.youtube.com";
   const cards = {
@@ -37,8 +37,8 @@
     const label = document.createElement("span");
     label.textContent = {
       checking: "Checking video details…",
-      blocked: "Higgsfield content hidden",
-      revealed: "Higgsfield ad / mention"
+      blocked: "Content hidden",
+      revealed: "Filtered content"
     }[state];
     badge.replaceChildren(label);
     if (state === "blocked") {

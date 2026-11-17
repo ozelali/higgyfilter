@@ -1,6 +1,6 @@
-# HiggsFieldFilter
+# HiggyFilter
 
-HiggsFieldFilter is a Chrome extension for filtering recurring Higgsfield promotions and mentions from your feeds. On YouTube Home, it can catch a sponsorship disclosed only in a video's description. Filtered items display a **Higgsfield content hidden** card with a **Show anyway** button.
+HiggyFilter is a Chrome extension for filtering recurring promotions and mentions from your feeds. On YouTube Home, it can catch a sponsorship disclosed only in a video's description. Filtered items display a **Content hidden** card with a **Show anyway** button.
 
 ## Install in Chrome
 
@@ -18,7 +18,7 @@ To update, replace the files in the loaded folder (or run `git pull` in your clo
 
 ## Using the filter
 
-Filtering starts automatically on supported sites. Choose **Show anyway** to reveal just that item and use its normal links and controls. A small Higgsfield label stays on the revealed card. Your choice lasts until you reload the page.
+Filtering starts automatically on supported sites. Choose **Show anyway** to reveal just that item and use its normal links and controls. A small **Filtered content** label stays on the revealed card. Your choice lasts until you reload the page.
 
 On YouTube Home, cards show **Checking video details…** near the viewport while the extension reads the linked video's metadata. If the lookup fails, the card becomes visible unless the card itself contains a match.
 
@@ -31,7 +31,7 @@ On YouTube Home, cards show **Checking video details…** near the viewport whil
 | X / Twitter | Post text, account names, links and labels, including quoted content when it appears in the post card. |
 | Reddit, Instagram and Threads | Best-effort filtering of text, links and labels in supported feed cards. |
 
-The filter matches the brand and its account variants, so it can also hide reviews or other ordinary mentions. It cannot recognize Higgsfield when the only signal is in audio, video frames or images without matching text or labels. Direct watch pages and post permalinks can still open. Changes to a site's layout can affect detection.
+The filter checks for predefined terms and related account names, so it can also hide reviews or other ordinary mentions. It cannot detect a match when the only signal is in audio, video frames or images without matching text or labels. Direct watch pages and post permalinks can still open. Changes to a site's layout can affect detection.
 
 ## Privacy
 

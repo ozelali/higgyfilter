@@ -2,7 +2,7 @@ const assert = require("node:assert/strict");
 const test = require("node:test");
 require("../matching.js");
 
-const { mentionsBrand, youtubeVideoId, matchWatchPage } = globalThis.HiggsFieldMatching;
+const { mentionsBrand, youtubeVideoId, matchWatchPage } = globalThis.HiggyFilterMatching;
 
 test("recognizes brand spellings, account names and linked domains", () => {
   for (const signal of ["Higgsfield", "Higgs Field", "higgs-field", "@higgsfieldai", "https://higgsfield.ai/deal"]) {

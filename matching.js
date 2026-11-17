@@ -1,6 +1,6 @@
 "use strict";
 
-globalThis.HiggsFieldMatching = (() => {
+globalThis.HiggyFilterMatching = (() => {
   const brand = /(?<![\p{L}\p{N}])higgs[\s._-]*field(?![\p{L}\p{N}])/iu;
   const account = /(?<![\p{L}\p{N}])@?higgsfield(?:ai|_ai)(?![\p{L}\p{N}])/iu;
 
